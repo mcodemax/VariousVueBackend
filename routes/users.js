@@ -12,16 +12,23 @@ router.get('/', async function (req, res) {
   try {
     const filter = req.query.filter;
     const {order, titleSort, descriptSort, nameSort} = req.query; 
-    console.log(nameSort)
-    //order is asc or desc
 
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     let usersArr = _.toArray(users);
 
-    if(nameSort) usersArr = sortFind(usersArr, 'name', nameSort.toLowerCase());
-    if(titleSort) usersArr = sortFind(usersArr, 'title', titleSort.toLowerCase());
-    if(descriptSort) usersArr = sortFind(usersArr, 'description', descriptSort.toLowerCase());
+    if(nameSort){
+      usersArr = sortFind(usersArr, 'name', nameSort.toLowerCase());
+      usersArr = orderSort(usersArr, 'name', order);
+    } 
+    if(titleSort){
+      usersArr = sortFind(usersArr, 'title', titleSort.toLowerCase());
+      usersArr = orderSort(usersArr, 'title', order);
+    } 
+    if(descriptSort){
+      usersArr = sortFind(usersArr, 'description', descriptSort.toLowerCase());
+      usersArr = orderSort(usersArr, 'description', order);
+    } 
 
     const totalResults = usersArr.length;
 
@@ -61,5 +68,26 @@ const sortFind = (arr, filter, search) => {
   return arr.filter(e => e[filter].includes(search));
 }
 
+const orderSort = (arr, filter, order = 'asc') => {
+  const alphabetize = (a,b, filter) => {
+    // Use toUpperCase() to ignore character casing
+    const varA = a[filter].toUpperCase();
+    const varB = b[filter].toUpperCase();
+  
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return comparison;
+  }
+
+  if(order === 'desc'){
+    return arr.sort((a,b) => alphabetize(a,b,filter)).reverse();
+  }else{
+    return arr.sort((a,b) => alphabetize(a,b,filter));
+  }
+}
 
 module.exports = router;
