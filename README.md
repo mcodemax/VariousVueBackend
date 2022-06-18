@@ -33,12 +33,15 @@ On server start, user data is read into memory from init_data.json. All subseque
 #### API Endpoints
 
 * **/users**  
-HTTP GET: returns array of all users  
-HTTP POST: creates a new user, returns the created user data
-* **/users/:id**  
-HTTP GET: returns the user with given id (numeric, auto-incrementing).  HTTP 404 if user not found  
-HTTP PUT: updates the user with given id and returns updated record. HTTP 404 if user not fund.  
-HTTP DELETE: removes the users with given id, returns nothing (HTTP 204)
+HTTP GET: returns array of all info with pagination
+
+optional query params to pass in:
+order, order data alphabetically (asc) or reverse alphabetically (desc)
+titleSort, sort results by title
+descriptSort, sort results by description
+nameSort, sort results by name
+page, get what page of results you're on
+limit, results limits per page
 
 Here is an example of results returned from HTTP GET on /users:
 ```

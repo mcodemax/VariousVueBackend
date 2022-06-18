@@ -10,7 +10,6 @@ var curId = _.size(users); // not needed prob
 /* GET users listing. */
 router.get('/', async function (req, res) {
   try {
-    const filter = req.query.filter;
     const {order, titleSort, descriptSort, nameSort} = req.query; 
 
     const page = parseInt(req.query.page);
