@@ -5,7 +5,6 @@ var logger = require('../lib/logger');
 var log = logger();
 
 var users = require('../init_data.json').feeds;
-var curId = _.size(users); // not needed prob
 
 /* GET users listing. */
 router.get('/', async function (req, res) {
